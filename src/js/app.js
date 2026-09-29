@@ -16,6 +16,7 @@
       el.hidden = el.id !== 'screen-' + name;
     });
     if (name === 'farmer') window.Farmer.open(document.getElementById('farmer-root'));
+    if (name === 'customer') window.Customer.open(document.getElementById('customer-root'));
     document.querySelectorAll('.topbar-nav [data-go]').forEach(function (btn) {
       btn.classList.toggle('is-current', btn.getAttribute('data-go') === name);
     });

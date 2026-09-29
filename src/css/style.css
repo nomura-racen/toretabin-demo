@@ -277,10 +277,143 @@ table.list small { color: var(--ink-soft); }
 .message-head { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
 .message-meta { color: var(--ink-soft); font-size: 0.9rem; }
 
+/* お客さんの画面：スマホ縦が基本。畑から届く便りのように */
 .customer-screen {
   max-width: 480px;
   margin: 0 auto;
 }
+
+.picker {
+  padding: 10px 12px;
+  margin-bottom: 12px;
+  border: 1px dashed #c9bda6;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  color: var(--ink-soft);
+}
+.picker label { display: flex; flex-direction: column; gap: 4px; }
+.picker select {
+  min-height: 44px;
+  padding: 0 8px;
+  border: 1px solid #b9ad97;
+  border-radius: 8px;
+  background: #fff;
+  font: inherit;
+  font-size: 1rem;
+  color: var(--ink);
+}
+
+.hello { margin: 4px 0 12px; font-size: 1.1rem; }
+
+.tabs { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-bottom: 16px; }
+.tab {
+  min-height: 48px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: #fff;
+  color: var(--ink);
+  cursor: pointer;
+}
+.tab.is-current { background: var(--melon); border-color: var(--melon); color: #fff; font-weight: bold; }
+
+/* 農家からの便り */
+.letter {
+  position: relative;
+  padding: 18px 18px 14px;
+  margin-bottom: 20px;
+  background: #fffdf6;
+  border: 1px solid #e8dcc2;
+  border-radius: 4px 18px 4px 18px;
+  box-shadow: 0 2px 0 #eadfc8;
+  background-image: repeating-linear-gradient(transparent, transparent 31px, #f1e8d4 32px);
+}
+.letter p { margin: 0 0 8px; }
+.letter-from { font-weight: bold; color: var(--leaf-dark); font-size: 1.1rem; }
+.letter-small { font-size: 0.9rem; color: var(--ink-soft); }
+
+.c-heading { font-size: 1.15rem; margin: 0 0 10px; }
+
+.harvest-card, .mine-card {
+  padding: 16px;
+  margin-bottom: 14px;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+}
+.harvest-card h3, .mine-card h3 { margin: 0 0 8px; font-size: 1.15rem; }
+
+.facts { margin: 0 0 12px; }
+.facts div { display: flex; justify-content: space-between; gap: 12px; padding: 4px 0; border-bottom: 1px dotted var(--line); }
+.facts dt { color: var(--ink-soft); }
+.facts dd { margin: 0; text-align: right; }
+.facts b { font-size: 1.2rem; margin-right: 2px; }
+
+.c-button {
+  display: block;
+  width: 100%;
+  min-height: 48px;
+  padding: 0 16px;
+  border: 0;
+  border-radius: 12px;
+  background: var(--melon);
+  color: #fff;
+  font-size: 1.05rem;
+  font-weight: bold;
+  cursor: pointer;
+}
+.c-button:hover { background: var(--melon-dark); }
+.c-button.ghost { background: #fff; color: var(--ink); border: 1px solid #c9bda6; font-weight: normal; }
+.c-button.ghost:hover { background: #f6f1e5; }
+
+/* 予約フォーム */
+.book-form fieldset { border: 0; padding: 0; margin: 0 0 16px; }
+.book-form legend { font-weight: bold; margin-bottom: 6px; }
+.book-form legend small { font-weight: normal; color: var(--ink-soft); }
+
+.choices { display: grid; gap: 8px; }
+.choices.row { grid-template-columns: repeat(auto-fill, minmax(72px, 1fr)); }
+
+.choice { display: block; cursor: pointer; }
+.choice input { position: absolute; opacity: 0; }
+.choice span {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 48px;
+  padding: 8px 12px;
+  border: 2px solid var(--line);
+  border-radius: 12px;
+  background: #fff;
+}
+.choices.row .choice span { align-items: center; }
+.choice small { color: var(--ink-soft); font-size: 0.85rem; }
+/* 選んだものは、色と「✓」で分かる */
+.choice input:checked + span { border-color: var(--melon); background: #fdf0e8; }
+.choice input:checked + span b::before { content: "✓ "; color: var(--melon-dark); }
+.choice input:focus-visible + span { outline: 3px solid #9cc0e8; outline-offset: 2px; }
+
+.free-note {
+  padding: 12px 14px;
+  margin-bottom: 12px;
+  background: #eef5e8;
+  border: 2px solid #b9d6aa;
+  border-radius: 12px;
+}
+.free-note b { display: block; font-size: 1.1rem; color: var(--leaf-dark); }
+
+.form-buttons { display: grid; gap: 8px; }
+
+/* 自分の予約 */
+.mine-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; }
+.pay-box { padding: 12px; margin-bottom: 10px; background: #fff8e6; border-radius: 12px; }
+.pay-box p { margin: 0 0 8px; }
+.mine-card .c-button { margin-bottom: 8px; }
+
+.c-messages { margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--line); }
+.c-messages-title { margin: 0 0 6px; font-weight: bold; font-size: 0.95rem; }
+.c-message { padding: 10px 12px; margin-bottom: 8px; background: #fbf7ee; border-radius: 10px; font-size: 0.95rem; }
+.c-message p { margin: 0; }
+.c-message-head { color: var(--ink-soft); font-size: 0.85rem; margin-bottom: 4px !important; }
 
 /* 画面の隅の時計 */
 .clock-badge {

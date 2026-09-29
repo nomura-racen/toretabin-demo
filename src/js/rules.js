@@ -27,6 +27,66 @@ window.Rules = (function () {
     return left <= NEAR_DEADLINE_HOURS * 60 * 60 * 1000;
   }
 
+  // 支払い待ちで、期限を過ぎていないか（支払えるか）
+  function canPay(reservation, now) {
+    return reservation.status === '支払い待ち' && now <= new Date(reservation.pay_deadline);
+  }
+
+  // ---- 予約の受付 ----
+
+  // 数に入れる予約（まだ振り分け前のもの）
+  function isOpen(r) { return r.status === '予約受付中' || r.status === '繰り越し'; }
+
+  // 残りの受付数 ＝ 予約上限 − 受付中と繰り越しの予約の合計
+  function remaining(state, h) {
+    var used = state.reservations.filter(function (r) { return r.harvest_id === h.id && isOpen(r); })
+      .reduce(function (a, r) { return a + r.quantity; }, 0);
+    return Math.max(0, h.reserve_limit - used);
+  }
+
+  // このお客さんが、この収穫回にあと何個まで予約できるか
+  function maxQuantity(state, h, customerId) {
+    var own = state.reservations.filter(function (r) {
+      return r.harvest_id === h.id && r.customer_id === customerId && isOpen(r);
+    }).reduce(function (a, r) { return a + r.quantity; }, 0);
+    return Math.max(0, Math.min(h.per_person_limit - own, remaining(state, h)));
+  }
+
+  // 繰り越しの予約を、お客さんがキャンセルできるか（まだ確定していない回にあるもの）
+  function canCancel(state, r) {
+    var h = state.harvests.find(function (x) { return x.id === r.harvest_id; });
+    return r.status === '繰り越し' && h.stage === '予約受付中';
+  }
+
+  // 予約する（choices：quantity, when_short, receive, payment）。できなければ null
+  function reserve(state, h, customerId, choices, now) {
+    if (h.stage !== '予約受付中') return null;
+    if (!(choices.quantity >= 1 && choices.quantity <= maxQuantity(state, h, customerId))) return null;
+    var r = {
+      id: Store.nextId(state.reservations, 'r'), harvest_id: h.id, customer_id: customerId,
+      quantity: choices.quantity, reserved_at: stamp(now), when_short: choices.when_short,
+      receive: choices.receive, payment: choices.payment, status: '予約受付中',
+      allocated: null, pay_deadline: null, paid_at: null, priority: false, carried_from: null
+    };
+    state.reservations.push(r);
+    return r;
+  }
+
+  // 支払う（期限内の支払い待ちだけ）
+  function pay(r, now) {
+    if (!canPay(r, now)) return false;
+    r.status = '支払い済み';
+    r.paid_at = stamp(now);
+    return true;
+  }
+
+  // 繰り越しの予約をキャンセルする
+  function cancel(state, r) {
+    if (!canCancel(state, r)) return false;
+    r.status = 'キャンセル';
+    return true;
+  }
+
   // ---- 振り分け ----
 
   // 今日が確定日で、まだ確定していない収穫回か
@@ -97,14 +157,9 @@ window.Rules = (function () {
     var nowStamp = stamp(now);
     var deadline = new Date(now.getTime() + item.pay_hours * 60 * 60 * 1000);
 
-    var maxNum = function (list) { // r012 や m041 の数字のいちばん大きいもの
-      return list.reduce(function (m, x) { return Math.max(m, parseInt(x.id.slice(1), 10) || 0); }, 0);
-    };
-    var nextRid = maxNum(state.reservations) + 1;
-    var nextMid = maxNum(state.messages) + 1;
     var send = function (r, kind, body) {
       state.messages.push({
-        id: 'm' + String(nextMid++).padStart(3, '0'), customer_id: r.customer_id, reservation_id: r.id,
+        id: Store.nextId(state.messages, 'm'), customer_id: r.customer_id, reservation_id: r.id,
         harvest_id: h.id, sent_at: nowStamp, kind: kind, body: body
       });
     };
@@ -137,7 +192,7 @@ window.Rules = (function () {
       if (p.next) {
         if (x.allocated === 0) r.status = '繰り越し';
         var carried = {
-          id: 'r' + String(nextRid++).padStart(3, '0'), harvest_id: p.next.id, customer_id: r.customer_id,
+          id: Store.nextId(state.reservations, 'r'), harvest_id: p.next.id, customer_id: r.customer_id,
           quantity: x.short, reserved_at: r.reserved_at, when_short: r.when_short, receive: r.receive,
           payment: r.payment, status: '繰り越し', allocated: null, pay_deadline: null, paid_at: null,
           priority: true, carried_from: r.id
@@ -161,6 +216,13 @@ window.Rules = (function () {
 
   return {
     isDeadlineNear: isDeadlineNear,
+    canPay: canPay,
+    remaining: remaining,
+    maxQuantity: maxQuantity,
+    canCancel: canCancel,
+    reserve: reserve,
+    pay: pay,
+    cancel: cancel,
     isConfirmDay: isConfirmDay,
     plan: plan,
     confirm: confirm

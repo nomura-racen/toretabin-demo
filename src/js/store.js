@@ -25,5 +25,11 @@ window.Store = (function () {
     }
   }
 
-  return { get: get, save: save };
+  // 新しい番号をつける（例：r001, r002 … の次）
+  function nextId(list, head) {
+    var max = list.reduce(function (m, x) { return Math.max(m, parseInt(x.id.slice(1), 10) || 0); }, 0);
+    return head + String(max + 1).padStart(3, '0');
+  }
+
+  return { get: get, save: save, nextId: nextId };
 })();
