@@ -62,7 +62,7 @@ button { font: inherit; }
   text-underline-offset: 4px;
 }
 
-main { padding: 16px 16px 80px; }
+main { padding: 16px 16px 140px; }
 
 /* 表紙 */
 .cover {
@@ -221,7 +221,11 @@ table.list small { color: var(--ink-soft); }
 .badge[data-result="繰り越し"],
 .badge[data-kind="繰り越しのお知らせ"] { background: #efe8f7; color: #5b3f86; border-color: #d2c3e8; }
 .badge[data-result="ご用意できない"],
-.badge[data-kind="ご用意できませんでした"] { background: #eeeeee; color: #555555; border-color: #d0d0d0; }
+.badge[data-kind="ご用意できませんでした"],
+.badge[data-kind="見送り"],
+.badge[data-kind="案内の期限切れ"]     { background: #eeeeee; color: #555555; border-color: #d0d0d0; }
+.badge[data-kind="期限切れ"]           { background: #fbe3e0; color: #9a2c1f; border-color: #efb9b1; }
+.badge[data-kind="空きのご案内"]       { background: #fdf0e8; color: #9a4a1f; border-color: #efc3a6; }
 
 .farmer-screen h3 { margin: 28px 0 10px; }
 .subnav { margin-bottom: 8px; }
@@ -409,6 +413,11 @@ table.list small { color: var(--ink-soft); }
 .pay-box p { margin: 0 0 8px; }
 .mine-card .c-button { margin-bottom: 8px; }
 
+.offer-box { padding: 12px; margin-bottom: 10px; background: #fdf0e8; border: 2px solid var(--melon); border-radius: 12px; }
+.offer-box p { margin: 0 0 8px; }
+.offer-buttons { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.offer-buttons .c-button { margin-bottom: 0; }
+
 .c-messages { margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--line); }
 .c-messages-title { margin: 0 0 6px; font-weight: bold; font-size: 0.95rem; }
 .c-message { padding: 10px 12px; margin-bottom: 8px; background: #fbf7ee; border-radius: 10px; font-size: 0.95rem; }
@@ -432,6 +441,20 @@ table.list small { color: var(--ink-soft); }
 }
 
 .clock-label { font-size: 0.75rem; opacity: 0.8; }
+#clock-now { font-weight: bold; font-size: 1.05rem; }
+
+.clock-buttons { display: flex; gap: 6px; margin-top: 6px; }
+.clock-buttons button {
+  min-height: 44px;
+  padding: 0 10px;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+.clock-buttons button:hover { background: rgba(255, 255, 255, 0.25); }
 
 /* 印刷するときは、上部の切り替えと時計を出さない */
 @media print {

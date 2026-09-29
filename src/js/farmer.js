@@ -3,6 +3,7 @@ window.Farmer = (function () {
   var WEEK = ['日', '月', '火', '水', '木', '金', '土'];
   var root = null;
   var filter = 'すべて'; // 予約の一覧の絞り込み
+  var view = { name: 'home' }; // 今見ている画面（時計を動かしたときに描き直すため）
 
   // ---- 小さな道具 ----
   function esc(s) {
@@ -64,6 +65,7 @@ window.Farmer = (function () {
 
   // ---- ホーム ----
   function renderHome() {
+    view = { name: 'home' };
     var now = Clock.now();
     var tomorrow = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
     var harvests = harvestsByDate();
@@ -121,6 +123,7 @@ window.Farmer = (function () {
 
   // ---- 収穫回の詳細（予約の一覧） ----
   function renderHarvest(id, notice) {
+    view = { name: 'harvest', id: id };
     var h = Store.get().harvests.find(function (x) { return x.id === id; });
     var u = unitWord(h);
     var all = reservationsOf(h);
@@ -254,6 +257,7 @@ window.Farmer = (function () {
 
   // ---- お客さんへの連絡の履歴（新しい順） ----
   function renderMessages() {
+    view = { name: 'messages' };
     var list = Store.get().messages.slice().sort(function (a, b) {
       if (a.sent_at !== b.sent_at) return a.sent_at < b.sent_at ? 1 : -1;
       return a.id < b.id ? 1 : -1;
@@ -284,5 +288,12 @@ window.Farmer = (function () {
     renderHome();
   }
 
-  return { open: open };
+  // 今見ている画面を描き直す（時計を動かしたとき）
+  function refresh() {
+    if (view.name === 'harvest') renderHarvest(view.id);
+    else if (view.name === 'messages') renderMessages();
+    else renderHome();
+  }
+
+  return { open: open, refresh: refresh };
 })();

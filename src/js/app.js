@@ -10,8 +10,11 @@
     document.getElementById('cover-sub-customer').textContent = settings.sub_customer;
   }
 
+  var current = 'cover'; // 今見ている画面
+
   // 画面を切り替える（name は cover / farmer / customer）
   function show(name) {
+    current = name;
     document.querySelectorAll('.screen').forEach(function (el) {
       el.hidden = el.id !== 'screen-' + name;
     });
@@ -28,9 +31,24 @@
     document.getElementById('clock-now').textContent = window.Clock.format(window.Clock.now());
   }
 
+  // 時計のボタン：時計を動かしたら、今見ている画面を描き直す
+  function bindClock() {
+    document.querySelectorAll('[data-clock]').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var what = btn.getAttribute('data-clock');
+        if (what === 'reset') window.Clock.reset();
+        else window.Clock.advance(Number(what));
+        showClock();
+        if (current === 'farmer') window.Farmer.refresh();
+        if (current === 'customer') window.Customer.refresh();
+      });
+    });
+  }
+
   // 起動
   fillCover();
   showClock();
+  bindClock();
   document.querySelectorAll('[data-go]').forEach(function (btn) {
     btn.addEventListener('click', function () {
       show(btn.getAttribute('data-go'));

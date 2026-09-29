@@ -152,6 +152,18 @@ window.Customer = (function () {
             ? '<button type="button" class="c-button" data-pay="' + r.id + '">支払う</button>'
             : '<p class="warn">お支払い期限を過ぎました。</p>') + '</div>';
       }
+      // 空きのご案内（返事待ち）：受け取る／見送る
+      var o = Rules.pendingOffer(S(), r);
+      if (o) {
+        var oh = harvest(o.harvest_id);
+        html += '<div class="offer-box"><p><b>空きのご案内</b>　' + esc(title(oh)) + '（' + fmtDay(oh.harvest_date) + '収穫）を ' +
+          o.quantity + esc(unitWord(oh)) + '、' + yen(o.quantity * item(oh).price) + '円でお届けできます。</p>' +
+          '<p>お返事の期限：<b>' + Clock.format(new Date(o.deadline)) + '</b></p>' +
+          '<div class="offer-buttons">' +
+          '<button type="button" class="c-button" data-accept="' + r.id + '">受け取る</button>' +
+          '<button type="button" class="c-button ghost" data-decline="' + r.id + '">見送る</button>' +
+          '</div></div>';
+      }
       if (Rules.canCancel(S(), r)) {
         html += '<button type="button" class="c-button ghost" data-cancel="' + r.id + '">キャンセルする</button>';
       }
@@ -221,7 +233,21 @@ window.Customer = (function () {
       b.addEventListener('click', function () {
         var r = S().reservations.find(function (x) { return x.id === b.getAttribute('data-cancel'); });
         if (!window.confirm('この予約をキャンセルします。よろしいですか？')) return;
-        if (Rules.cancel(S(), r)) { Store.save(); notice = '予約をキャンセルしました。'; }
+        if (Rules.cancel(S(), r, Clock.now())) { Store.save(); notice = '予約をキャンセルしました。'; }
+        render();
+      });
+    });
+    root.querySelectorAll('[data-accept]').forEach(function (b) {
+      b.addEventListener('click', function () {
+        var r = S().reservations.find(function (x) { return x.id === b.getAttribute('data-accept'); });
+        if (Rules.acceptOffer(S(), r, Clock.now())) { Store.save(); notice = '空きのご案内を受け取りました。'; }
+        render();
+      });
+    });
+    root.querySelectorAll('[data-decline]').forEach(function (b) {
+      b.addEventListener('click', function () {
+        var r = S().reservations.find(function (x) { return x.id === b.getAttribute('data-decline'); });
+        if (Rules.declineOffer(S(), r, Clock.now())) { Store.save(); notice = '空きのご案内を見送りました。'; }
         render();
       });
     });
@@ -234,5 +260,11 @@ window.Customer = (function () {
     render();
   }
 
-  return { open: open };
+  // 今見ている画面を描き直す（時計を動かしたとき）
+  function refresh() {
+    notice = '';
+    render();
+  }
+
+  return { open: open, refresh: refresh };
 })();
