@@ -1,0 +1,152 @@
+/* とれたら便 見た目 */
+
+:root {
+  --paper: #fbf7ee;
+  --ink: #3b3024;
+  --ink-soft: #6e6152;
+  --line: #e4dccb;
+  --leaf: #4f7a3a;
+  --leaf-dark: #3d6129;
+  --melon: #d9794a;
+  --melon-dark: #b95e32;
+  --bar: #fffdf8;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: "Hiragino Maru Gothic ProN", "Hiragino Sans", "Yu Gothic", "Meiryo", sans-serif;
+  line-height: 1.7;
+}
+
+button { font: inherit; }
+
+/* 画面上部 */
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 0 12px;
+  background: var(--bar);
+  border-bottom: 1px solid var(--line);
+}
+
+.topbar button {
+  min-height: 44px;
+  padding: 0 14px;
+  border: 0;
+  background: none;
+  color: var(--ink);
+  cursor: pointer;
+}
+
+.topbar-title { font-weight: bold; font-size: 1.1rem; }
+
+.topbar-nav { display: flex; gap: 4px; }
+
+.topbar-nav button { border-radius: 8px; }
+.topbar-nav button:hover { background: #f1eadb; }
+
+/* 今いる画面は、色と下線で分かる */
+.topbar-nav button.is-current {
+  background: #efe6d2;
+  font-weight: bold;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+main { padding: 16px 16px 80px; }
+
+/* 表紙 */
+.cover {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 48px 0 24px;
+  text-align: center;
+}
+
+.cover h1 {
+  margin: 0;
+  font-size: clamp(2.4rem, 9vw, 3.6rem);
+  letter-spacing: 0.08em;
+  color: var(--leaf-dark);
+}
+
+.cover-catch {
+  margin: 8px 0 40px;
+  font-size: clamp(1.1rem, 4.5vw, 1.4rem);
+}
+
+.cover-choices {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 16px;
+}
+
+.cover-choice {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 24px 20px;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+}
+
+.cover-sub { margin: 0; color: var(--ink-soft); }
+
+.big-button {
+  min-height: 56px;
+  padding: 0 20px;
+  border: 0;
+  border-radius: 12px;
+  color: #fff;
+  font-size: 1.1rem;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.big-button.farmer { background: var(--leaf); }
+.big-button.farmer:hover { background: var(--leaf-dark); }
+.big-button.customer { background: var(--melon); }
+.big-button.customer:hover { background: var(--melon-dark); }
+
+/* それぞれの画面 */
+.screen h2 { margin-top: 8px; }
+
+.customer-screen {
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+/* 画面の隅の時計 */
+.clock-badge {
+  position: fixed;
+  right: 12px;
+  bottom: 12px;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  padding: 6px 12px;
+  background: var(--ink);
+  color: #fff;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  line-height: 1.4;
+}
+
+.clock-label { font-size: 0.75rem; opacity: 0.8; }
+
+/* 印刷するときは、上部の切り替えと時計を出さない */
+@media print {
+  .topbar, .clock-badge { display: none; }
+  body { background: #fff; }
+}

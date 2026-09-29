@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>とれたら便</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <!-- 画面上部：いつでも行き来できる切り替え -->
+  <header class="topbar">
+    <button type="button" class="topbar-title" data-go="cover">とれたら便</button>
+    <nav class="topbar-nav">
+      <button type="button" data-go="farmer">農家</button>
+      <button type="button" data-go="customer">お客さん</button>
+    </nav>
+  </header>
+
+  <main>
+    <!-- 表紙 -->
+    <section id="screen-cover" class="screen">
+      <div class="cover">
+        <h1 id="cover-title"></h1>
+        <p id="cover-catch" class="cover-catch"></p>
+        <div class="cover-choices">
+          <div class="cover-choice">
+            <p id="cover-sub-farmer" class="cover-sub"></p>
+            <button type="button" class="big-button farmer" data-go="farmer">農家として見る</button>
+          </div>
+          <div class="cover-choice">
+            <p id="cover-sub-customer" class="cover-sub"></p>
+            <button type="button" class="big-button customer" data-go="customer">お客さんとして見る</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 農家の画面（中身はこれから） -->
+    <section id="screen-farmer" class="screen farmer-screen" hidden>
+      <h2>農家の画面</h2>
+    </section>
+
+    <!-- お客さんの画面（中身はこれから） -->
+    <section id="screen-customer" class="screen customer-screen" hidden>
+      <h2>お客さんの画面</h2>
+    </section>
+  </main>
+
+  <!-- 画面の隅：デモ用の時計 -->
+  <div class="clock-badge">
+    <span class="clock-label">デモの時計</span>
+    <span id="clock-now"></span>
+  </div>
+
+  <!-- 読み込み順はこの順番を守る -->
+  <script src="data/data.js"></script>
+  <script src="js/store.js"></script>
+  <script src="js/clock.js"></script>
+  <script src="js/rules.js"></script>
+  <script src="js/farmer.js"></script>
+  <script src="js/customer.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
