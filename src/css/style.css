@@ -213,6 +213,70 @@ table.list small { color: var(--ink-soft); }
 .badge[data-state="発送済み"]     { background: #e0f1f1; color: #1f6363; border-color: #acd6d6; }
 .badge[data-state="受け取り済み"] { background: #e0f1f1; color: #1f6363; border-color: #acd6d6; }
 
+/* 振り分けの結果・連絡の種類の札 */
+.badge[data-result="全部"],
+.badge[data-kind="お届け決定"]         { background: #e6f2df; color: #35602a; border-color: #b9d6aa; }
+.badge[data-result="一部"],
+.badge[data-kind="支払いのお願い"]     { background: #fff2cc; color: #7a5a00; border-color: #eed48a; }
+.badge[data-result="繰り越し"],
+.badge[data-kind="繰り越しのお知らせ"] { background: #efe8f7; color: #5b3f86; border-color: #d2c3e8; }
+.badge[data-result="ご用意できない"],
+.badge[data-kind="ご用意できませんでした"] { background: #eeeeee; color: #555555; border-color: #d0d0d0; }
+
+.farmer-screen h3 { margin: 28px 0 10px; }
+.subnav { margin-bottom: 8px; }
+.count { font-size: 1rem; font-weight: normal; color: var(--ink-soft); }
+
+.notice {
+  padding: 10px 14px;
+  background: #e6f2df;
+  border: 1px solid #b9d6aa;
+  border-radius: 10px;
+  font-weight: bold;
+}
+.warn { color: #9a2c1f; font-weight: bold; }
+
+/* 見込み量の入力と振り分け */
+.allocate {
+  padding: 16px;
+  background: #fff;
+  border: 2px solid var(--leaf);
+  border-radius: 12px;
+}
+.allocate h3 { margin-top: 0; }
+
+.allocate-input { display: inline-flex; align-items: center; gap: 8px; font-weight: bold; margin-bottom: 12px; }
+.allocate-input input {
+  width: 7em;
+  min-height: 44px;
+  padding: 0 10px;
+  border: 1px solid #b9ad97;
+  border-radius: 8px;
+  font: inherit;
+  font-size: 1.3rem;
+  text-align: right;
+}
+
+.plan-nums {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 10px;
+  margin-bottom: 8px;
+}
+.plan-nums div { padding: 10px 12px; background: #f6f1e5; border-radius: 10px; }
+.plan-nums span { display: block; font-size: 0.85rem; color: var(--ink-soft); }
+.plan-nums b { font-size: 2rem; margin-right: 2px; }
+
+.plan-note { margin: 0 0 12px; color: var(--ink-soft); }
+.confirm-button { margin-top: 16px; width: 100%; max-width: 360px; }
+
+/* お客さんへの連絡の履歴 */
+.messages { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.message { padding: 12px 16px; background: #fff; border: 1px solid var(--line); border-radius: 10px; }
+.message p { margin: 6px 0 0; }
+.message-head { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.message-meta { color: var(--ink-soft); font-size: 0.9rem; }
+
 .customer-screen {
   max-width: 480px;
   margin: 0 auto;

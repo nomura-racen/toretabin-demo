@@ -16,5 +16,14 @@ window.Store = (function () {
     return state;
   }
 
-  return { get: get };
+  // 今の状態をブラウザに保存する
+  function save() {
+    try {
+      localStorage.setItem(KEY, JSON.stringify(get()));
+    } catch (e) {
+      // 保存できないブラウザでも、画面はそのまま動かす
+    }
+  }
+
+  return { get: get, save: save };
 })();
