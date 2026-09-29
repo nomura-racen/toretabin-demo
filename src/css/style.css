@@ -122,6 +122,97 @@ main { padding: 16px 16px 80px; }
 /* それぞれの画面 */
 .screen h2 { margin-top: 8px; }
 
+/* 農家の画面：数字がひと目で分かる */
+.farmer-screen { max-width: 1100px; margin: 0 auto; }
+.farmer-screen h2 { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+
+.todo {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 12px;
+  margin-bottom: 32px;
+}
+
+.todo-card {
+  padding: 14px 16px;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-left: 6px solid var(--leaf);
+  border-radius: 10px;
+}
+
+.todo-label { margin: 0 0 4px; font-size: 0.9rem; color: var(--ink-soft); }
+.todo-body { margin: 0; font-weight: bold; }
+.todo-num { margin: 0; font-size: 2.4rem; font-weight: bold; line-height: 1.1; }
+.todo-num small { font-size: 1rem; margin-left: 4px; }
+
+.none { color: var(--ink-soft); font-weight: normal; }
+
+.table-wrap { overflow-x: auto; background: #fff; border: 1px solid var(--line); border-radius: 10px; }
+
+table.list { width: 100%; border-collapse: collapse; }
+table.list th, table.list td {
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--line);
+  text-align: left;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+table.list th { background: #f6f1e5; font-size: 0.85rem; color: var(--ink-soft); font-weight: normal; }
+table.list tbody tr:last-child td { border-bottom: 0; }
+table.list .num { text-align: right; }
+table.list td.num b { font-size: 1.3rem; margin-right: 2px; }
+table.list small { color: var(--ink-soft); }
+
+.link-button {
+  min-height: 44px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--leaf-dark);
+  font-weight: bold;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+  text-align: left;
+}
+
+.back-button, .filter-button {
+  min-height: 44px;
+  padding: 0 16px;
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  background: #fff;
+  color: var(--ink);
+  cursor: pointer;
+}
+
+.harvest-meta { margin: 0 0 12px; color: var(--ink-soft); }
+.harvest-meta b { color: var(--ink); font-size: 1.2rem; }
+
+.filters { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
+.filter-button.is-current { background: var(--ink); color: #fff; border-color: var(--ink); font-weight: bold; }
+
+/* 状態の札：色に加えて文字でも分かる */
+.badge {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  font-size: 0.85rem;
+  font-weight: bold;
+  white-space: nowrap;
+}
+.badge[data-state="予約受付中"]   { background: #e8f0fb; color: #2a5591; border-color: #b8cdec; }
+.badge[data-state="割り当て済み"] { background: #e6f2df; color: #35602a; border-color: #b9d6aa; }
+.badge[data-state="支払い待ち"]   { background: #fff2cc; color: #7a5a00; border-color: #eed48a; }
+.badge[data-state="支払い済み"]   { background: #e6f2df; color: #35602a; border-color: #b9d6aa; }
+.badge[data-state="繰り越し"]     { background: #efe8f7; color: #5b3f86; border-color: #d2c3e8; }
+.badge[data-state="期限切れ"]     { background: #fbe3e0; color: #9a2c1f; border-color: #efb9b1; }
+.badge[data-state="キャンセル"]   { background: #eeeeee; color: #555555; border-color: #d0d0d0; }
+.badge[data-state="発送済み"]     { background: #e0f1f1; color: #1f6363; border-color: #acd6d6; }
+.badge[data-state="受け取り済み"] { background: #e0f1f1; color: #1f6363; border-color: #acd6d6; }
+
 .customer-screen {
   max-width: 480px;
   margin: 0 auto;

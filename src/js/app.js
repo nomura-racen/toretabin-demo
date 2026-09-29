@@ -15,6 +15,7 @@
     document.querySelectorAll('.screen').forEach(function (el) {
       el.hidden = el.id !== 'screen-' + name;
     });
+    if (name === 'farmer') window.Farmer.open(document.getElementById('farmer-root'));
     document.querySelectorAll('.topbar-nav [data-go]').forEach(function (btn) {
       btn.classList.toggle('is-current', btn.getAttribute('data-go') === name);
     });
