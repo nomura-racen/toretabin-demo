@@ -9,6 +9,7 @@
 
 | ファイル | 役割 |
 |---|---|
+| README.md | このプロジェクトの説明（GitHubで最初に表示される） |
 | src/index.html | 画面の骨組み。script の読み込み順もここで決める |
 | src/css/style.css | 見た目（印刷用も含む） |
 | src/js/store.js | 読み込みと保存（localStorage、最初の状態に戻す） |

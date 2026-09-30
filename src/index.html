@@ -8,30 +8,35 @@
 </head>
 <body>
   <!-- 画面上部：いつでも行き来できる切り替え -->
+  <!-- ログインしている画面にだけ行ける -->
   <header class="topbar">
     <button type="button" class="topbar-title" data-go="cover">とれたら便</button>
     <nav class="topbar-nav">
-      <button type="button" data-go="farmer">農家</button>
-      <button type="button" data-go="customer">お客さん</button>
+      <button type="button" data-go="farmer" hidden>農家の画面</button>
+      <button type="button" data-go="customer" id="nav-customer" hidden>自分のページ</button>
+      <button type="button" id="logout" hidden>ログアウト</button>
     </nav>
   </header>
 
   <main>
-    <!-- 表紙 -->
+    <!-- 表紙：お客さんのログイン。農家は下の「農家の方はこちら」から -->
     <section id="screen-cover" class="screen">
       <div class="cover">
+        <p class="cover-lead">収穫に合わせた、予約販売</p>
         <h1 id="cover-title"></h1>
         <p id="cover-catch" class="cover-catch"></p>
-        <div class="cover-choices">
-          <div class="cover-choice">
-            <p id="cover-sub-farmer" class="cover-sub"></p>
-            <button type="button" class="big-button farmer" data-go="farmer">農家として見る</button>
-          </div>
-          <div class="cover-choice">
-            <p id="cover-sub-customer" class="cover-sub"></p>
-            <button type="button" class="big-button customer" data-go="customer">お客さんとして見る</button>
-          </div>
+
+        <div class="login-card customer" id="login-customer">
+          <p id="cover-sub-customer" class="cover-sub"></p>
+          <div id="login-customer-body"></div>
         </div>
+
+        <div class="login-card farmer" id="login-farmer" hidden>
+          <p id="cover-sub-farmer" class="cover-sub"></p>
+          <div id="login-farmer-body"></div>
+        </div>
+
+        <p class="login-switch"><button type="button" class="reset-button" id="login-switch">農家の方はこちら</button></p>
       </div>
     </section>
 
@@ -46,9 +51,14 @@
     </section>
   </main>
 
+  <!-- いちばん下：最初の状態に戻す（目立たないように） -->
+  <footer class="footer">
+    <button type="button" class="reset-button" id="reset-all">最初の状態に戻す</button>
+  </footer>
+
   <!-- 画面の隅：デモ用の時計 -->
   <div class="clock-badge">
-    <span class="clock-label">デモの時計</span>
+    <span class="clock-label">デモ用の時計</span>
     <span id="clock-now"></span>
     <span class="clock-buttons">
       <button type="button" data-clock="6">+6時間</button>
